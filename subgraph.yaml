@@ -14,10 +14,16 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Transferred
+        - Minter
+        - TokenHolder
       abis:
         - name: COFIX
           file: ./abis/COFIX.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer          
+          handler: handleTransfer
+        - event: MinterAdded(address)
+          handler: handleMinterAdded
+        - event: MinterRemoved(address)
+          handler: handleMinterRemoved
       file: ./src/mapping.ts

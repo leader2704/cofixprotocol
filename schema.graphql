@@ -6,3 +6,25 @@ type Transferred @entity {
   timestamp: BigInt
   transactionHash: Bytes!  
 }
+
+type Minter @entity {
+  id: ID!
+  # Orion Protocol minter address
+  address: String!
+  # Minter counter
+  count: BigInt!
+# Boolean True when added
+  added: Boolean
+}
+
+type TokenHolder @entity {
+  id: ID!
+  # Token holder address
+  address: String!
+  # Token holder balance
+  balance: BigInt!
+  # Token holder number of transactions
+  transactionCount: BigInt!
+   # Token holders counter
+  count: BigInt!
+}
