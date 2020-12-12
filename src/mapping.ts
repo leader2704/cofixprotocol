@@ -9,7 +9,7 @@ import {
   NewGovernance,
   Transfer
 } from "../generated/COFIX/COFIX"
-import { Transferred, Minter, TokenHolder } from "../generated/schema"
+import { Transferred, Minter } from "../generated/schema"
 
 export function handleTransfer(event: Transfer): void {
   let transfer = new Transferred(event.transaction.hash.toHex())
@@ -20,27 +20,6 @@ export function handleTransfer(event: Transfer): void {
   transfer.timestamp = event.block.timestamp
   transfer.transactionHash = event.transaction.hash
   transfer.save()
-
-  let tokenholderFrom = TokenHolder.load(event.params.from.toHex())
-  if (tokenholderFrom == null) {
-    tokenholderFrom = new TokenHolder(event.params.from.toHex())
-    tokenholderFrom.count = BigInt.fromI32(1)
-  }
-  tokenholderFrom.balance = tokenholderFrom.balance.minus(event.params.value)
-  tokenholderFrom.transactionCount = tokenholderFrom.transactionCount.plus(BigInt.fromI32(1))
-  tokenholderFrom.count = tokenholderFrom.count.plus(BigInt.fromI32(1))
-  tokenholderFrom.save()
-
-  let tokenholderTo = TokenHolder.load(event.params.to.toHex())
-  if (tokenholderTo == null) {
-    tokenholderTo = new TokenHolder(event.params.to.toHex())
-    tokenholderTo.count = BigInt.fromI32(1)
-  }
-
-  tokenholderTo.balance = tokenholderTo.balance.plus(event.params.value)
-  tokenholderTo.transactionCount = tokenholderTo.transactionCount.plus(BigInt.fromI32(1))
-  tokenholderTo.count = tokenholderTo.count.plus(BigInt.fromI32(1))
-  tokenholderTo.save()
 }
 
 export function handleMinterAdded(event: MinterAdded): void {
