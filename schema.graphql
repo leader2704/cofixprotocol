@@ -1,0 +1,15 @@
+type Transferred @entity {
+  id: ID!
+  value: BigInt!
+  from: Bytes!
+  to: Bytes!
+  timestamp: BigInt
+  transactionHash: Bytes!  
+}
+
+type Minter @entity {
+  id: ID!
+  address: String!
+  count: BigInt!
+  added: Boolean
+}
